@@ -2,18 +2,29 @@ project:
   type: website
 
 website:
-  title: "datapol"
   navbar:
+    logo: logo.png     # <-- add this line
+    background: "#edeae4"   # navy
+    foreground: "ivory"
     right:
-      - about.qmd
+      - text: "Sobre"
+        href: about.qmd
       - icon: github
-        href: https://github.com/
+        href: https://github.com/MathieuR04/datapol
       - icon: twitter
         href: https://twitter.com
+  page-footer:
+    background: "#232A2F"   # noir
+    foreground: "#f9f8f7"   # ivory
+    left: "© 2025 DataPol"
+    right: "Construido con [Quarto](https://quarto.org)."
+
 format:
   html:
     theme: cosmo
     css: styles.css
+    mainfont: "Helvetica"
+    sansfont: "Poppins"
+
 
 editor: visual
-

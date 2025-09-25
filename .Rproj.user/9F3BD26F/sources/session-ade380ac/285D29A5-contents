@@ -1,0 +1,14 @@
+body {
+  background-color: #f9f8f7; /* ivory */
+  color: #232A2F;            /* noir */
+}
+
+h1, h2, h3 {
+  color: #153147; /* navy */
+  font-weight: 700;
+}
+
+a {
+  color: #adb8bb; /* mist */
+}
+/* css styles */
