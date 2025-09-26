@@ -7,6 +7,13 @@
     "text": "About this blog"
   },
   {
+    "objectID": "posts/datapol-test-upload.html",
+    "href": "posts/datapol-test-upload.html",
+    "title": "test-of-uploads",
+    "section": "",
+    "text": "Hola! Bienvenidos a mi primera entrada de blog. Chile’s ENP!\n\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\nLinking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE"
+  },
+  {
     "objectID": "posts/post-with-code/index.html",
     "href": "posts/post-with-code/index.html",
     "title": "Post With Code",
