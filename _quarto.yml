@@ -4,8 +4,8 @@ project:
 website:
   navbar:
     logo: logo.png     # <-- add this line
-    background: "#edeae4"   # navy
-    foreground: "#232A2F"
+    background: "#edeae4"   # almond
+    foreground: "#232A2F" #black
     right:
       - text: "Sobre"
         href: about.qmd

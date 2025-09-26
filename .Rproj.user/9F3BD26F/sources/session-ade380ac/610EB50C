@@ -3,9 +3,9 @@
     "path": "~/Documents/Electoral Data/datapol/datapol/_quarto.yml",
     "project_path": "_quarto.yml",
     "type": "yaml",
-    "hash": "0",
+    "hash": "384056445",
     "contents": "",
-    "dirty": true,
+    "dirty": false,
     "created": 1758831260336.0,
     "source_on_save": false,
     "relative_order": 2,
@@ -16,11 +16,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1758836628,
+    "lastKnownWriteTime": 1758838589,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1758836884971,
+    "last_content_update": 1758838589740,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -1,0 +1,111 @@
+data <- read.csv("/Users/mathieurojas/Documents/Electoral Data/Chile_Effective_Number_of_Parties/Chile_Presidenciales_Final.csv")
+
+library(dplyr)
+library(stringi)
+library(tidyr)
+
+replacements <- c(
+  "CABO DE HORNOS(EX-NAVARINO)" = "CABO DE HORNOS",
+  "AISEN" = "AYSEN",
+  "LLAY-LLAY" = "LLAILLAY",
+  "TREHUACO" = "TREGUACO"
+)
+
+
+data <- data %>%
+  filter(Unit == "Municipality") %>%
+  mutate(
+    Unit_ID = stri_trans_general(Unit_ID, "Latin-ASCII"),
+    Unit_ID = recode(Unit_ID, !!!replacements)
+  ) %>%
+  pivot_wider(
+    id_cols = Unit_ID,
+    names_from = Year,
+    values_from = ENP,
+    names_prefix = "ENP_"
+  )
+
+library(dplyr)
+library(stringi)
+library(purrr)
+library(sf)
+
+
+urls <- paste0("https://raw.githubusercontent.com/caracena/chile-geojson/master/", 1:16, ".geojson")
+
+geojson <- urls %>%
+  map(st_read, quiet = TRUE) %>%
+  bind_rows()
+
+geojson <- geojson %>%
+  mutate(
+    Comuna = Comuna %>%
+      stri_trans_general("Latin-ASCII") %>%
+      toupper()
+  )
+
+
+Comunas_ENP <- geojson%>%
+  left_join(data, by = c("Comuna" = "Unit_ID"))
+
+
+
+library(leaflet)
+library(RColorBrewer)
+
+# Ensure numeric
+Comunas_ENP$ENP_2021 <- as.numeric(Comunas_ENP$ENP_2021)
+Comunas_ENP$ENP_2017 <- as.numeric(Comunas_ENP$ENP_2017)
+Comunas_ENP$ENP_2013 <- as.numeric(Comunas_ENP$ENP_2013)
+
+# Define palettes for each year (or same palette)
+pal <- colorNumeric("YlOrRd", domain = c(Comunas_ENP$ENP_2013,
+                                         Comunas_ENP$ENP_2017,
+                                         Comunas_ENP$ENP_2021))
+
+leaflet(Comunas_ENP) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  
+  # Layer for 2021
+  addPolygons(
+    fillColor   = ~pal(ENP_2021),
+    color       = "white",
+    weight      = 0.3,
+    fillOpacity = 0.8,
+    popup       = ~paste0("<b>", Comuna, "</b><br/>ENP 2021: ", ENP_2021),
+    group       = "ENP 2021"
+  ) %>%
+  
+  # Layer for 2017
+  addPolygons(
+    fillColor   = ~pal(ENP_2017),
+    color       = "white",
+    weight      = 0.3,
+    fillOpacity = 0.8,
+    popup       = ~paste0("<b>", Comuna, "</b><br/>ENP 2017: ", ENP_2017),
+    group       = "ENP 2017"
+  ) %>%
+  
+  # Layer for 2013
+  addPolygons(
+    fillColor   = ~pal(ENP_2013),
+    color       = "white",
+    weight      = 0.3,
+    fillOpacity = 0.8,
+    popup       = ~paste0("<b>", Comuna, "</b><br/>ENP 2013: ", ENP_2013),
+    group       = "ENP 2013"
+  ) %>%
+  
+  # Add layer control
+  addLayersControl(
+    baseGroups = c("ENP 2021", "ENP 2017", "ENP 2013"),
+    options = layersControlOptions(collapsed = FALSE)
+  ) %>%
+  
+  addLegend(
+    "bottomright",
+    pal    = pal,
+    values = c(Comunas_ENP$ENP_2013, Comunas_ENP$ENP_2017, Comunas_ENP$ENP_2021),
+    title  = "ENP",
+    opacity = 0.8
+  )
